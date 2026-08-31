@@ -190,7 +190,7 @@
 
   /* ---- Model carousel ---- */
   (function(){
-    var photos = ['img/P1.png','img/P2.png','img/P3.png','img/P4.png','img/P5.png','img/P6.png','img/P7.png','img/P8.png'];
+    var photos = ['assets/img/models/P1.png','assets/img/models/P2.png','assets/img/models/P3.png','assets/img/models/P4.png','assets/img/models/P5.png','assets/img/models/P6.png','assets/img/models/P7.png','assets/img/models/P8.png'];
     var current = 0;
     var photoEl = document.getElementById('modelPhoto');
     var countEl = document.getElementById('modelCount');
