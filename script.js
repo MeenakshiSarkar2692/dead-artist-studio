@@ -1,0 +1,246 @@
+  (function(){
+    var stage = document.getElementById('stage');
+    var sheen = document.getElementById('sheen');
+    var hero = document.getElementById('hero');
+    var roomImg = document.getElementById('roomImg');
+    var loader = document.getElementById('loader');
+    var loaderFill = document.getElementById('loaderFill');
+
+    /* ---- Loader ---- */
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ loaderFill.style.width = '100%'; });
+    });
+
+    var imgReady = new Promise(function(resolve){
+      if (roomImg.complete && roomImg.naturalWidth) resolve();
+      else roomImg.addEventListener('load', resolve, { once:true });
+    });
+    var minTime = new Promise(function(resolve){ setTimeout(resolve, 1700); });
+
+    Promise.all([imgReady, minTime]).then(function(){
+      loader.classList.add('is-hidden');
+      document.body.style.overflow = '';
+      positionHotspots();
+      setTimeout(function(){ loader.style.display = 'none'; }, 750);
+    });
+
+    /* ---- Hotspot positioning (maps original image px -> rendered box, matching object-fit:cover) ---- */
+    var NAT_W = 2752, NAT_H = 1536;
+    var OBJ_POS_X = 0.58, OBJ_POS_Y = 0.62;
+    var REGIONS = {
+      lockers: [1540, 240, 2752, 1260],
+      laptop:  [815, 715, 1150, 925]
+    };
+
+    function positionHotspots(){
+      var cw = stage.clientWidth, ch = stage.clientHeight;
+      if (!cw || !ch) return;
+      var scale = Math.max(cw / NAT_W, ch / NAT_H);
+      var renderedW = NAT_W * scale, renderedH = NAT_H * scale;
+      var tx = (cw - renderedW) * OBJ_POS_X;
+      var ty = (ch - renderedH) * OBJ_POS_Y;
+
+      Object.keys(REGIONS).forEach(function(key){
+        var el = document.getElementById('hotspot-' + key);
+        if (!el) return;
+        var r = REGIONS[key];
+        el.style.left   = (r[0] * scale + tx) + 'px';
+        el.style.top    = (r[1] * scale + ty) + 'px';
+        el.style.width  = ((r[2]-r[0]) * scale) + 'px';
+        el.style.height = ((r[3]-r[1]) * scale) + 'px';
+      });
+    }
+
+    window.addEventListener('resize', positionHotspots);
+    positionHotspots();
+
+    var targetX = 0, targetY = 0; // -1 to 1
+    var curX = 0, curY = 0;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function onMove(e){
+      var rect = hero.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;   // 0..1
+      var py = (e.clientY - rect.top) / rect.height;   // 0..1
+      targetX = (px - 0.5) * 2; // -1..1
+      targetY = (py - 0.5) * 2;
+    }
+
+    hero.addEventListener('mousemove', onMove);
+    hero.addEventListener('mouseleave', function(){ targetX = 0; targetY = 0; });
+
+    // gentle gyroscope support for mobile "look around"
+    window.addEventListener('deviceorientation', function(e){
+      if (e.gamma === null || e.beta === null) return;
+      targetX = Math.max(-1, Math.min(1, e.gamma / 30));
+      targetY = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+    });
+
+    function tick(){
+      if (!reduceMotion){
+        curX += (targetX - curX) * 0.055;
+        curY += (targetY - curY) * 0.055;
+
+        var rotateY = curX * 7;      // look left/right
+        var rotateX = -curY * 5;     // look up/down
+        var panX = curX * -18;
+        var panY = curY * -12;
+        var scale = 1.08;
+
+        stage.style.transform =
+          'perspective(1200px) translate3d(' + panX + 'px,' + panY + 'px,0) ' +
+          'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(' + scale + ')';
+
+        sheen.style.transform =
+          'translate3d(' + (curX * 40) + 'px,' + (curY * 30) + 'px,0) rotate(' + (curX * 4) + 'deg)';
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ---- Locker Room modal + Locker Reveal (shared flow) ---- */
+  (function(){
+
+    /* --- Locker Room (level 1) --- */
+    var lrModal   = document.getElementById('lrModal');
+    var lrBackdrop = document.getElementById('lrBackdrop');
+    var lrClose   = document.getElementById('lrClose');
+    var ctaBtn    = document.getElementById('openLockersCta');
+    var navLink   = document.getElementById('navCollectionLink');
+
+    function openLR(e){
+      if (e) e.preventDefault();
+      lrModal.classList.add('is-open');
+      lrModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lrClose.focus();
+    }
+
+    function closeLR(){
+      lrModal.classList.remove('is-open');
+      lrModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    if (ctaBtn) ctaBtn.addEventListener('click', openLR);
+    if (navLink) navLink.addEventListener('click', openLR);
+    lrBackdrop.addEventListener('click', closeLR);
+    lrClose.addEventListener('click', closeLR);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && lrModal.classList.contains('is-open') && !reveal.classList.contains('is-active')) closeLR();
+    });
+
+    /* --- Locker Reveal (level 2) --- */
+    var reveal    = document.getElementById('lockerReveal');
+    var doorCover = document.getElementById('revealDoorCover');
+    var revealClose = document.getElementById('revealClose');
+    var revealBackdrop = document.getElementById('revealBackdrop');
+    var photoEl   = document.getElementById('revealPhoto');
+    var captionEl = document.getElementById('revealCaption');
+
+    var CAPTIONS = {
+      'LOCKER — 01': { title: 'Heavy Cotton. Bold Graphics.', sub: 'The original medium — every drop, every print.' },
+      'LOCKER — 02': { title: 'Button Up. Stand Out.', sub: 'Woven roots, clean cut — built for the studio.' },
+      'LOCKER — 03': { title: 'Stay Warm. Stay Clean.', sub: 'Pull it over. The studio staple, worn in.' },
+    };
+
+    function openReveal(btn){
+      /* hide locker room, show reveal */
+      lrModal.classList.remove('is-open');
+      lrModal.setAttribute('aria-hidden', 'true');
+
+      if (photoEl && btn.dataset.img) photoEl.src = btn.dataset.img;
+      var cap = CAPTIONS[btn.dataset.kicker] || {};
+      if (captionEl) captionEl.innerHTML = (cap.title || '') + (cap.sub ? '<span>' + cap.sub + '</span>' : '');
+
+      doorCover.style.transition = 'none';
+      doorCover.style.transform = 'rotateY(0deg)';
+      void doorCover.offsetWidth;
+      doorCover.style.transition = '';
+      doorCover.style.transform = '';
+
+      reveal.classList.add('is-active');
+      reveal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      revealClose.focus();
+    }
+
+    function closeReveal(){
+      /* hide reveal, go back to locker room */
+      reveal.classList.remove('is-active');
+      reveal.setAttribute('aria-hidden', 'true');
+      openLR(null);
+    }
+
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest('.locker-door');
+      if (btn) openReveal(btn);
+    });
+
+    revealClose.addEventListener('click', closeReveal);
+    revealBackdrop.addEventListener('click', closeReveal);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && reveal.classList.contains('is-active')) closeReveal();
+    });
+
+  })();
+
+  /* ---- Model carousel ---- */
+  (function(){
+    var photos = ['img/P1.png','img/P2.png','img/P3.png','img/P4.png','img/P5.png','img/P6.png','img/P7.png','img/P8.png'];
+    var current = 0;
+    var photoEl = document.getElementById('modelPhoto');
+    var countEl = document.getElementById('modelCount');
+    var prevBtn = document.getElementById('modelPrev');
+    var nextBtn = document.getElementById('modelNext');
+
+    function updateCount(){
+      countEl.textContent = String(current+1).padStart(2,'0') + ' / ' + String(photos.length).padStart(2,'0');
+    }
+
+    function goTo(index){
+      current = (index + photos.length) % photos.length;
+      photoEl.classList.add('is-fading');
+      setTimeout(function(){
+        photoEl.src = photos[current];
+        photoEl.alt = 'Model ' + (current+1) + ' of ' + photos.length;
+        photoEl.classList.remove('is-fading');
+        updateCount();
+      }, 250);
+    }
+
+    prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+    nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+  })();
+
+  /* ---- About modal ---- */
+  (function(){
+    var modal    = document.getElementById('aboutModal');
+    var backdrop = document.getElementById('aboutBackdrop');
+    var closeBtn = document.getElementById('aboutClose');
+    var triggers = document.querySelectorAll('.about-trigger');
+
+    function openAbout(e){
+      if (e) e.preventDefault();
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeAbout(){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    triggers.forEach(function(t){ t.addEventListener('click', openAbout); });
+    backdrop.addEventListener('click', closeAbout);
+    closeBtn.addEventListener('click', closeAbout);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeAbout();
+    });
+  })();
