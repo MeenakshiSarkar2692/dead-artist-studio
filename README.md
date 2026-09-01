@@ -1,4 +1,4 @@
-# Dead Artist Studio
+# Dead Artists Society
 
 An independent apparel label website built as a static site — dark, editorial, and built with intent.
 
