@@ -140,6 +140,40 @@
     var revealBackdrop = document.getElementById('revealBackdrop');
     var photoEl   = document.getElementById('revealPhoto');
     var captionEl = document.getElementById('revealCaption');
+    var cardsContainer = document.getElementById('revealCardsContainer');
+
+    /* single global drag state — avoids accumulating listeners per card */
+    var dragState = null;
+    document.addEventListener('mousemove', function(e){
+      if (!dragState) return;
+      dragState.card.style.left = (e.clientX - dragState.ox) + 'px';
+      dragState.card.style.top  = (e.clientY - dragState.oy) + 'px';
+    });
+    document.addEventListener('mouseup', function(){
+      if (!dragState) return;
+      dragState.card.style.cursor = 'grab';
+      dragState.card.style.zIndex = '30';
+      dragState = null;
+    });
+    document.addEventListener('touchmove', function(e){
+      if (!dragState) return;
+      e.preventDefault();
+      var t = e.touches[0];
+      dragState.card.style.left = (t.clientX - dragState.ox) + 'px';
+      dragState.card.style.top  = (t.clientY - dragState.oy) + 'px';
+    }, { passive: false });
+    document.addEventListener('touchend', function(){
+      if (!dragState) return;
+      dragState.card.style.cursor = 'grab';
+      dragState.card.style.zIndex = '30';
+      dragState = null;
+    });
+
+    var CARD_LABELS = {
+      'LOCKER — 01': ['TEE 01','TEE 02','PRINT','GRAPHIC','COTTON','BOLD','DROP','ARC'],
+      'LOCKER — 02': ['SHIRT 01','SHIRT 02','BUTTON','WOVEN','STUDIO','CUT','ARCH','FIT'],
+      'LOCKER — 03': ['HOOD 01','HOOD 02','FLEECE','PULL','WARM','CLEAN','STAPLE','DRIP'],
+    };
 
     var CAPTIONS = {
       'LOCKER — 01': { title: 'Heavy Cotton. Bold Graphics.', sub: 'The original medium — every drop, every print.' },
@@ -162,6 +196,51 @@
       doorCover.style.transition = '';
       doorCover.style.transform = '';
 
+      if (cardsContainer) {
+        cardsContainer.innerHTML = '';
+        var labels    = (CARD_LABELS[btn.dataset.kicker] || []);
+        var delays    = [340,370,400,430,460,410,380,350];
+        var durations = [750,700,730,710,760,720,680,740];
+        labels.forEach(function(lbl, i) {
+          var card = document.createElement('div');
+          card.className = 'reveal-card';
+          card.setAttribute('data-label', lbl);
+          card.style.cssText = 'top:45%;left:35%;animation:cardFly'+(i+1)+' '+durations[i]+'ms cubic-bezier(.22,.85,.28,1) '+delays[i]+'ms both';
+          card.addEventListener('mousedown', function(e){
+            var rect = card.getBoundingClientRect();
+            var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
+            var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+            card.style.animation = 'none';
+            card.style.position = 'fixed';
+            card.style.left = rect.left + 'px';
+            card.style.top  = rect.top  + 'px';
+            card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+            card.style.opacity = '1';
+            card.style.zIndex = '50';
+            card.style.cursor = 'grabbing';
+            dragState = { card: card, ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+            e.preventDefault();
+            e.stopPropagation();
+          });
+          card.addEventListener('touchstart', function(e){
+            var t = e.touches[0];
+            var rect = card.getBoundingClientRect();
+            var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
+            var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+            card.style.animation = 'none';
+            card.style.position = 'fixed';
+            card.style.left = rect.left + 'px';
+            card.style.top  = rect.top  + 'px';
+            card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+            card.style.opacity = '1';
+            card.style.zIndex = '50';
+            dragState = { card: card, ox: t.clientX - rect.left, oy: t.clientY - rect.top };
+            e.preventDefault();
+          }, { passive: false });
+          cardsContainer.appendChild(card);
+        });
+      }
+
       reveal.classList.add('is-active');
       reveal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -172,6 +251,7 @@
       /* hide reveal, go back to locker room */
       reveal.classList.remove('is-active');
       reveal.setAttribute('aria-hidden', 'true');
+      if (cardsContainer) cardsContainer.innerHTML = '';
       openLR(null);
     }
 
