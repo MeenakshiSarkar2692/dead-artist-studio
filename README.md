@@ -1,14 +1,20 @@
-# Dead Artists Society
+# Dead Artist Studio
 
-An independent apparel label website built as a static site — dark, editorial, and built with intent.
+An independent apparel label website — dark, editorial, built with intent.
 
-## What's inside
+Live: **https://meenakshisarkar2692.github.io/dead-artist-studio/**
 
-- **Hero** — Full-viewport parallax room with a model carousel (P1–P8) overlaid as a picture-on-picture, with left/right navigation
-- **Locker Room** — Click "Open the Lockers" or "Collection" to open a full-screen locker wall popup. Three labelled lockers (T-Shirts, Shirts, Hoodies) are marked with sticky notes. Clicking a locker reveals the category clothing photo with a door-swing animation
+## Features
+
+- **Hero** — Full-viewport parallax room with mouse/gyroscope look-around effect
+- **Model carousel** — 8 model cutouts (P1–P8) overlaid as picture-in-picture; navigate by clicking the 8 vertical pip indicators at the bottom center (no side buttons)
+- **Hold-to-scroll** — Ring indicator at bottom-right; hold for 1.2s to scroll to the footer. Normal scroll is blocked on the hero — only the hold trigger navigates down
+- **Custom skull cursor** — Desktop only (`pointer:fine` devices); scales on hover
+- **Locker Room** — Full-screen popup with three labelled lockers (T-Shirts, Shirts, Hoodies). Click "Open the Lockers" or "Collection" to open
+- **Flying cards** — Opening a locker bursts 8 draggable cream cards across the screen; cards can be picked up and moved around
+- **Locker reveal** — Door-swing animation reveals the category clothing photo (4:3 crop, object-fit cover, per-locker positioning)
 - **About** — Full-screen slide-in panel with identity block, bio, stats, and links
-- **Contact** — Slide-in panel with Email, Phone, Instagram, LinkedIn, and Behance links
-- **Footer** — Brand info and quick nav links
+- **Contact / Footer** — Slide-in panel with Email, Phone, Instagram, LinkedIn, Behance
 
 ## Stack
 
@@ -16,23 +22,28 @@ An independent apparel label website built as a static site — dark, editorial,
 - Google Fonts: Anton, Azeret Mono, IBM Plex Mono, Oswald
 - Impact (system font) for brand name
 - SVG favicon (skull icon)
+- GitHub Pages for hosting
 
 ## File structure
 
 ```
 /
-├── index.html        # Main page
-├── styles.css        # All styles
-├── script.js         # Parallax, locker modals, model carousel, about/contact
-├── favicon.svg       # Skull icon
-└── img/
-    ├── studio-room.png       # Hero background
-    ├── lockers-wall.png      # Locker room popup background
-    ├── locker-shirts.png     # T-Shirts reveal photo
-    ├── locker-archive.png    # Shirts reveal photo
-    ├── locker-hoodies.png    # Hoodies reveal photo
-    ├── P1.png – P8.png       # Model cutout PNGs (transparent)
-    └── REFFERECE.png         # Design reference
+├── index.html
+├── favicon.svg
+├── assets/
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   │   └── script.js
+│   └── img/
+│       ├── studio/
+│       │   ├── studio-room.png          # Hero background
+│       │   ├── lockers-wall.png         # Locker room popup background
+│       │   ├── locker-archive.webp      # T-Shirts reveal photo
+│       │   ├── locker-shirts.webp       # Shirts reveal photo
+│       │   └── locker-hoodies.webp      # Hoodies reveal photo
+│       └── models/
+│           └── P1.webp – P8.webp        # Model cutout WebPs (transparent)
 ```
 
 ## Running locally
@@ -43,8 +54,8 @@ python3 -m http.server 8080
 
 Then open [http://localhost:8080](http://localhost:8080).
 
-## Customise
+## Branches
 
-- Replace placeholder text in `index.html` (About bio, Contact links, name, location)
-- Swap model images (`img/P1.png` – `img/P8.png`) with your own transparent PNGs
-- Update locker category images in `img/` and adjust `data-img` attributes on the locker buttons
+- `master` — production branch (GitHub Pages serves from here)
+- `deadlydhuti` — kept in sync with master
+- `dhuti` — kept in sync with master
