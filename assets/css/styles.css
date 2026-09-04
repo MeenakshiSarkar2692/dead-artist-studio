@@ -446,7 +446,7 @@
   .reveal-door-frame{
     position:relative;
     width:min(90vw, 900px);
-    max-height:88vh;
+    aspect-ratio:4/3;
     border-radius:8px;
     overflow:hidden;
     box-shadow:0 50px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
@@ -456,9 +456,9 @@
   .reveal-photo{
     display:block;
     width:100%;
-    height:auto;
-    max-height:88vh;
-    object-fit:contain;
+    height:100%;
+    object-fit:cover;
+    object-position:35% center;
   }
   .reveal-door-cover{
     position:absolute;
@@ -958,12 +958,6 @@
 /* ---------- REVEAL — CLEAN PHOTO ---------- */
 .locker-reveal-stage{
   width:auto;
-}
-.reveal-photo{
-  width:100%;
-  height:auto;
-  object-fit:contain;
-  display:block;
 }
 
 /* ---------- BRAND NAME FONT ---------- */

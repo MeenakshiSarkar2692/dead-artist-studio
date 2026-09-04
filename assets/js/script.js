@@ -181,12 +181,29 @@
       'LOCKER — 03': { title: 'Stay Warm. Stay Clean.', sub: 'Pull it over. The studio staple, worn in.' },
     };
 
+    /* object-position per locker — centers the open-locker door in the 4:3 crop */
+    var PHOTO_POSITIONS = {
+      'LOCKER — 01': '0% center',   /* archive  — open locker at ~37%, crops to center */
+      'LOCKER — 02': '35% center',  /* shirts   — open locker at ~46%, shift right */
+      'LOCKER — 03': '0% center',   /* hoodies  — open locker at ~25%, show left side */
+    };
+
+    /* preload all three locker reveal images after page load */
+    window.addEventListener('load', function(){
+      ['assets/img/studio/locker-archive.webp','assets/img/studio/locker-shirts.webp','assets/img/studio/locker-hoodies.webp'].forEach(function(src){
+        var img = new Image(); img.src = src;
+      });
+    });
+
     function openReveal(btn){
       /* hide locker room, show reveal */
       lrModal.classList.remove('is-open');
       lrModal.setAttribute('aria-hidden', 'true');
 
-      if (photoEl && btn.dataset.img) photoEl.src = btn.dataset.img;
+      if (photoEl && btn.dataset.img) {
+        photoEl.src = btn.dataset.img;
+        photoEl.style.objectPosition = PHOTO_POSITIONS[btn.dataset.kicker] || '35% center';
+      }
       var cap = CAPTIONS[btn.dataset.kicker] || {};
       if (captionEl) captionEl.innerHTML = (cap.title || '') + (cap.sub ? '<span>' + cap.sub + '</span>' : '');
 
