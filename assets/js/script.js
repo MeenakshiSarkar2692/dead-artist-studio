@@ -294,6 +294,11 @@
 
     prevBtn.addEventListener('click', function(){ goTo(current - 1); });
     nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+
+    /* preload all models into browser image cache */
+    window.addEventListener('load', function(){
+      photos.slice(1).forEach(function(src){ var img = new Image(); img.src = src; });
+    });
   })();
 
   /* ---- About modal ---- */
