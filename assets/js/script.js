@@ -324,3 +324,32 @@
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeAbout();
     });
   })();
+
+  /* ---- Custom cursor ---- */
+  (function(){
+    var cursor = document.getElementById('customCursor');
+    if (!cursor) return;
+
+    var visible = false;
+
+    document.addEventListener('mousemove', function(e){
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+      if (!visible){ cursor.classList.add('is-visible'); visible = true; }
+    });
+
+    document.addEventListener('mouseleave', function(){ cursor.classList.remove('is-visible'); visible = false; });
+    document.addEventListener('mouseenter', function(){ cursor.classList.add('is-visible'); visible = true; });
+
+    document.addEventListener('mouseover', function(e){
+      if (e.target.closest('a, button, [role="button"], label, .reveal-card, .cta, .lr-locker'))
+        cursor.classList.add('is-hover');
+    });
+    document.addEventListener('mouseout', function(e){
+      if (e.target.closest('a, button, [role="button"], label, .reveal-card, .cta, .lr-locker'))
+        cursor.classList.remove('is-hover');
+    });
+
+    document.addEventListener('mousedown', function(){ cursor.classList.add('is-grabbing'); });
+    document.addEventListener('mouseup',   function(){ cursor.classList.remove('is-grabbing'); });
+  })();
