@@ -406,6 +406,6 @@
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
     window.addEventListener('touchmove', function(e) {
-      if (window.scrollY === 0 && e.touches[0].clientY < touchStartY) e.preventDefault();
+      if (window.scrollY === 0 && (touchStartY - e.touches[0].clientY) > 15) e.preventDefault();
     }, { passive: false });
   })();
