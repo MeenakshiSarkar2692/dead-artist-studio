@@ -290,12 +290,10 @@
     var photos = ['assets/img/models/P1.webp','assets/img/models/P2.webp','assets/img/models/P3.webp','assets/img/models/P4.webp','assets/img/models/P5.webp','assets/img/models/P6.webp','assets/img/models/P7.webp','assets/img/models/P8.webp'];
     var current = 0;
     var photoEl = document.getElementById('modelPhoto');
-    var countEl = document.getElementById('modelCount');
-    var prevBtn = document.getElementById('modelPrev');
-    var nextBtn = document.getElementById('modelNext');
+    var pips    = document.querySelectorAll('.model-pip');
 
-    function updateCount(){
-      countEl.textContent = String(current+1).padStart(2,'0') + ' / ' + String(photos.length).padStart(2,'0');
+    function updatePips(){
+      pips.forEach(function(p, i){ p.classList.toggle('is-active', i === current); });
     }
 
     function goTo(index){
@@ -305,12 +303,11 @@
         photoEl.src = photos[current];
         photoEl.alt = 'Model ' + (current+1) + ' of ' + photos.length;
         photoEl.classList.remove('is-fading');
-        updateCount();
+        updatePips();
       }, 250);
     }
 
-    prevBtn.addEventListener('click', function(){ goTo(current - 1); });
-    nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+    pips.forEach(function(p, i){ p.addEventListener('click', function(){ goTo(i); }); });
 
     /* preload all models into browser image cache */
     window.addEventListener('load', function(){
