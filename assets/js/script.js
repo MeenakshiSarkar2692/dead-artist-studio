@@ -353,3 +353,59 @@
     document.addEventListener('mousedown', function(){ cursor.classList.add('is-grabbing'); });
     document.addEventListener('mouseup',   function(){ cursor.classList.remove('is-grabbing'); });
   })();
+
+  /* ---- Hold-to-scroll ---- */
+  (function(){
+    var trigger  = document.getElementById('holdTrigger');
+    var ringFill = document.getElementById('holdRingFill');
+    var footer   = document.getElementById('contact');
+    if (!trigger || !ringFill || !footer) return;
+
+    var HOLD_MS      = 1200;
+    var CIRCUMFERENCE = 113;
+    var interval     = null;
+    var progress     = 0;
+
+    function setRing(p) {
+      ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - Math.min(p, 1));
+    }
+
+    function startHold() {
+      if (interval) return;
+      interval = setInterval(function() {
+        progress += 50 / HOLD_MS;
+        setRing(progress);
+        if (progress >= 1) {
+          clearInterval(interval); interval = null;
+          footer.scrollIntoView({ behavior: 'smooth' });
+          setTimeout(function() { progress = 0; setRing(0); }, 700);
+        }
+      }, 50);
+    }
+
+    function cancelHold() {
+      if (interval) { clearInterval(interval); interval = null; }
+      progress = 0;
+      setRing(0);
+    }
+
+    trigger.addEventListener('mousedown',  startHold);
+    trigger.addEventListener('touchstart', startHold, { passive: true });
+    document.addEventListener('mouseup',   cancelHold);
+    document.addEventListener('touchend',  cancelHold);
+  })();
+
+  /* ---- Block normal scroll on hero — only hold trigger navigates down ---- */
+  (function(){
+    window.addEventListener('wheel', function(e) {
+      if (window.scrollY === 0 && e.deltaY > 0) e.preventDefault();
+    }, { passive: false });
+
+    var touchStartY = 0;
+    window.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchmove', function(e) {
+      if (window.scrollY === 0 && e.touches[0].clientY < touchStartY) e.preventDefault();
+    }, { passive: false });
+  })();
