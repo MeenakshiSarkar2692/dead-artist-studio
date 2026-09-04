@@ -270,7 +270,7 @@
 
   /* ---- Model carousel ---- */
   (function(){
-    var photos = ['assets/img/models/P1.png','assets/img/models/P2.png','assets/img/models/P3.png','assets/img/models/P4.png','assets/img/models/P5.png','assets/img/models/P6.png','assets/img/models/P7.png','assets/img/models/P8.png'];
+    var photos = ['assets/img/models/P1.webp','assets/img/models/P2.webp','assets/img/models/P3.webp','assets/img/models/P4.webp','assets/img/models/P5.webp','assets/img/models/P6.webp','assets/img/models/P7.webp','assets/img/models/P8.webp'];
     var current = 0;
     var photoEl = document.getElementById('modelPhoto');
     var countEl = document.getElementById('modelCount');
