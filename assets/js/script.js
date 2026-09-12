@@ -27,7 +27,7 @@
 
     /* ---- Hotspot positioning (maps original image px -> rendered box, matching object-fit:cover) ---- */
     var NAT_W = 2752, NAT_H = 1536;
-    var OBJ_POS_X = 0.58, OBJ_POS_Y = 0.62;
+    var OBJ_POS_X = 0, OBJ_POS_Y = 0.62;
     var REGIONS = {
       lockers: [1540, 240, 2752, 1260],
       laptop:  [815, 715, 1150, 925]
@@ -308,6 +308,26 @@
     }
 
     pips.forEach(function(p, i){ p.addEventListener('click', function(){ goTo(i); }); });
+
+    var lastScrollChange = 0;
+    var touchStartY = 0;
+
+    window.addEventListener('wheel', function(e){
+      var now = Date.now();
+      if (Math.abs(e.deltaY) < 10 || now - lastScrollChange < 450) return;
+      lastScrollChange = now;
+      goTo(current + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: true });
+
+    window.addEventListener('touchstart', function(e){
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', function(e){
+      var deltaY = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) < 30) return;
+      goTo(current + (deltaY > 0 ? 1 : -1));
+    }, { passive: true });
 
     /* preload all models into browser image cache */
     window.addEventListener('load', function(){
