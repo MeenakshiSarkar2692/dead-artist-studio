@@ -27,7 +27,7 @@
 
     /* ---- Hotspot positioning (maps original image px -> rendered box, matching object-fit:cover) ---- */
     var NAT_W = 2752, NAT_H = 1536;
-    var OBJ_POS_X = 0.58, OBJ_POS_Y = 0.62;
+    var OBJ_POS_X = 0, OBJ_POS_Y = 0.62;
     var REGIONS = {
       lockers: [1540, 240, 2752, 1260],
       laptop:  [815, 715, 1150, 925]
@@ -50,6 +50,17 @@
         el.style.width  = ((r[2]-r[0]) * scale) + 'px';
         el.style.height = ((r[3]-r[1]) * scale) + 'px';
       });
+
+      /* Helmet overlay — pinned to box-top surface in image space (2752×1536).
+         PNG is square so displayed height = width; bottom of visual helmet ≈ 91.7 % of that,
+         landing at image-y ≈ 408 px (top surface of stacked boxes). */
+      var helmetLink = document.querySelector('.hero-helmet-link');
+      if (helmetLink) {
+        var HX = 206, HY = 204, HW = 260;
+        helmetLink.style.left  = (HX * scale + tx) + 'px';
+        helmetLink.style.top   = (HY * scale + ty) + 'px';
+        helmetLink.style.width = (HW * scale)       + 'px';
+      }
     }
 
     window.addEventListener('resize', positionHotspots);
@@ -308,6 +319,26 @@
     }
 
     pips.forEach(function(p, i){ p.addEventListener('click', function(){ goTo(i); }); });
+
+    var lastScrollChange = 0;
+    var touchStartY = 0;
+
+    window.addEventListener('wheel', function(e){
+      var now = Date.now();
+      if (Math.abs(e.deltaY) < 10 || now - lastScrollChange < 450) return;
+      lastScrollChange = now;
+      goTo(current + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: true });
+
+    window.addEventListener('touchstart', function(e){
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', function(e){
+      var deltaY = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) < 30) return;
+      goTo(current + (deltaY > 0 ? 1 : -1));
+    }, { passive: true });
 
     /* preload all models into browser image cache */
     window.addEventListener('load', function(){

@@ -99,9 +99,55 @@
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:58% 62%;
+    object-position:0% 62%;
     display:block;
     filter:saturate(1.03) contrast(1.02);
+  }
+  .stage .hero-helmet-link{
+    position:absolute;
+    height:auto;
+    z-index:4;
+    display:block;
+    pointer-events:auto;
+    cursor:pointer;
+  }
+  .stage .hero-helmet-link::after{
+    content:'[VIEW COLLECTION]';
+    position:absolute;
+    left:50%;
+    bottom:-30px;
+    transform:translate(-50%, 6px);
+    padding:7px 9px;
+    background:rgba(15,19,12,0.88);
+    border:1px solid rgba(246,241,230,0.42);
+    color:var(--cream);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.08em;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .stage .hero-helmet-link:hover::after,
+  .stage .hero-helmet-link:focus-visible::after{
+    opacity:1;
+    transform:translate(-50%, 0);
+  }
+  .stage .hero-helmet{
+    width:100%;
+    height:auto;
+    object-fit:contain;
+    object-position:center;
+    filter:drop-shadow(0 12px 9px rgba(24,18,10,0.28));
+    pointer-events:none;
+  }
+  @media (min-width:1200px) and (max-aspect-ratio:11/5){
+  }
+  @media (max-width:900px) and (min-width:601px){
+  }
+  @media (max-width:600px){
+    .stage img{ object-position:0% 62%; }
   }
   /* subtle vignette that sells depth, like light falling into a room */
   .vignette{

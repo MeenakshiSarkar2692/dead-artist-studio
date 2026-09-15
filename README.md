@@ -7,8 +7,9 @@ Live: **https://meenakshisarkar2692.github.io/dead-artist-studio/**
 ## Features
 
 - **Hero** — Full-viewport parallax room with mouse/gyroscope look-around effect
-- **Model carousel** — 8 model cutouts (P1–P8) overlaid as picture-in-picture; navigate by clicking the 8 vertical pip indicators at the bottom center (no side buttons)
-- **Hold-to-scroll** — Ring indicator at bottom-right; hold for 1.2s to scroll to the footer. Normal scroll is blocked on the hero — only the hold trigger navigates down
+- **Model carousel** — 8 model cutouts (P1–P8) overlaid as picture-in-picture; navigate by clicking the 8 vertical pip indicators at the bottom centre, or by scrolling/swiping on the hero
+- **Helmet overlay** — Clickable helmet image sits over the hero room and links out to the Champions '26 Collection on Behance; shows a `[VIEW COLLECTION]` label on hover
+- **Hold-to-scroll** — Ring indicator at bottom-right; hold for 1.2s to scroll to the footer. Normal page scroll is blocked on the hero — scroll instead cycles through model photos
 - **Custom skull cursor** — Desktop only (`pointer:fine` devices); scales on hover
 - **Locker Room** — Full-screen popup with three labelled lockers (T-Shirts, Shirts, Hoodies). Click "Open the Lockers" or "Collection" to open
 - **Flying cards** — Opening a locker bursts 8 draggable cream cards across the screen; cards can be picked up and moved around
@@ -43,7 +44,8 @@ Live: **https://meenakshisarkar2692.github.io/dead-artist-studio/**
 │       │   ├── locker-shirts.webp       # Shirts reveal photo
 │       │   └── locker-hoodies.webp      # Hoodies reveal photo
 │       └── models/
-│           └── P1.webp – P8.webp        # Model cutout WebPs (transparent)
+│           ├── P1.webp – P8.webp        # Model cutout WebPs (transparent)
+│           └── HELMET.png               # Helmet overlay for hero section
 ```
 
 ## Running locally
@@ -57,5 +59,5 @@ Then open [http://localhost:8080](http://localhost:8080).
 ## Branches
 
 - `master` — production branch (GitHub Pages serves from here)
-- `deadlydhuti` — kept in sync with master
+- `deadlydhuti` — feature branch; scroll model navigation + helmet overlay
 - `dhuti` — kept in sync with master
