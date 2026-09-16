@@ -5,8 +5,6 @@
     var roomImg = document.getElementById('roomImg');
     var loader = document.getElementById('loader');
     var loaderFill = document.getElementById('loaderFill');
-    var musicHotspot = document.getElementById('hotspot-laptop');
-    var spotifyPopover = document.getElementById('spotifyPopover');
 
     /* ---- Loader ---- */
     document.body.style.overflow = 'hidden';
@@ -31,8 +29,7 @@
     var NAT_W = 2752, NAT_H = 1536;
     var OBJ_POS_X = 0, OBJ_POS_Y = 0.62;
     var REGIONS = {
-      lockers: [1540, 240, 2752, 1260],
-      laptop:  [815, 715, 1150, 925]
+      lockers: [1540, 240, 2752, 1260]
     };
 
     function positionHotspots(){
@@ -52,14 +49,6 @@
         el.style.width  = ((r[2]-r[0]) * scale) + 'px';
         el.style.height = ((r[3]-r[1]) * scale) + 'px';
       });
-
-      if (musicHotspot && spotifyPopover) {
-        var heroRect = hero.getBoundingClientRect();
-        var left = Math.max(22, heroRect.width * 0.23);
-        var top = Math.max(160, heroRect.height * 0.46);
-        spotifyPopover.style.left = left + 'px';
-        spotifyPopover.style.top = top + 'px';
-      }
 
       /* Helmet overlay — pinned to box-top surface in image space (2752×1536).
          PNG is square so displayed height = width; bottom of visual helmet ≈ 91.7 % of that,
@@ -92,29 +81,6 @@
     hero.addEventListener('mousemove', onMove);
     hero.addEventListener('mouseleave', function(){ targetX = 0; targetY = 0; });
 
-    function showMusicPopover(){
-      if (!musicHotspot || !spotifyPopover) return;
-      spotifyPopover.classList.add('is-visible');
-      spotifyPopover.setAttribute('aria-hidden', 'false');
-      musicHotspot.setAttribute('aria-expanded', 'true');
-    }
-
-    function hideMusicPopover(){
-      if (!musicHotspot || !spotifyPopover) return;
-      if (musicHotspot.matches(':hover') || spotifyPopover.matches(':hover') || document.activeElement === musicHotspot) return;
-      spotifyPopover.classList.remove('is-visible');
-      spotifyPopover.setAttribute('aria-hidden', 'true');
-      musicHotspot.setAttribute('aria-expanded', 'false');
-    }
-
-    if (musicHotspot && spotifyPopover) {
-      musicHotspot.addEventListener('mouseenter', showMusicPopover);
-      musicHotspot.addEventListener('mouseleave', hideMusicPopover);
-      musicHotspot.addEventListener('focus', showMusicPopover);
-      musicHotspot.addEventListener('blur', hideMusicPopover);
-      spotifyPopover.addEventListener('mouseenter', showMusicPopover);
-      spotifyPopover.addEventListener('mouseleave', hideMusicPopover);
-    }
 
     // gentle gyroscope support for mobile "look around"
     window.addEventListener('deviceorientation', function(e){
@@ -218,12 +184,14 @@
       'LOCKER — 01': ['TEE 01','TEE 02','PRINT','GRAPHIC','COTTON','BOLD','DROP','ARC'],
       'LOCKER — 02': ['SHIRT 01','SHIRT 02','BUTTON','WOVEN','STUDIO','CUT','ARCH','FIT'],
       'LOCKER — 03': ['HOOD 01','HOOD 02','FLEECE','PULL','WARM','CLEAN','STAPLE','DRIP'],
+      'LOCKER — 04': ['TEE 01','TEE 02','SLIM','REGULAR','PRINT','CROP','FIT','FRESH'],
     };
 
     var CAPTIONS = {
       'LOCKER — 01': { title: 'Heavy Cotton. Bold Graphics.', sub: 'The original medium — every drop, every print.' },
       'LOCKER — 02': { title: 'Button Up. Stand Out.', sub: 'Woven roots, clean cut — built for the studio.' },
       'LOCKER — 03': { title: 'Stay Warm. Stay Clean.', sub: 'Pull it over. The studio staple, worn in.' },
+      'LOCKER — 04': { title: 'Classic Cut. Every Day.', sub: 'Your canvas — graphic tees done right.' },
     };
 
     /* object-position per locker — centers the open-locker door in the 4:3 crop */
@@ -231,6 +199,7 @@
       'LOCKER — 01': '0% center',   /* archive  — open locker at ~37%, crops to center */
       'LOCKER — 02': '35% center',  /* shirts   — open locker at ~46%, shift right */
       'LOCKER — 03': '0% center',   /* hoodies  — open locker at ~25%, show left side */
+      'LOCKER — 04': '0% center',
     };
 
     /* preload all three locker reveal images after page load */

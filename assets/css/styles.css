@@ -793,48 +793,6 @@
 
   }
 
-  .music-hotspot{
-    z-index:12;
-    pointer-events:auto;
-    border:none;
-    background:transparent;
-    padding:0;
-  }
-  .music-hotspot::before{
-    inset:10%;
-    border-radius:10px;
-  }
-  .spotify-popover{
-    position:absolute;
-    z-index:18;
-    left:0;
-    top:0;
-    width:min(500px, 46vw);
-    min-width:330px;
-    background:rgba(240, 238, 236, 0.96);
-    border:1px solid rgba(24, 24, 24, 0.06);
-    border-radius:32px;
-    box-shadow:0 18px 36px rgba(0,0,0,0.16);
-    padding:0;
-    opacity:0;
-    pointer-events:none;
-    transform:translateY(10px);
-    transition:opacity .22s ease, transform .22s ease;
-    overflow:hidden;
-  }
-  .spotify-popover.is-visible{
-    opacity:1;
-    pointer-events:auto;
-    transform:translateY(0);
-  }
-  .spotify-popover iframe{
-    display:block;
-    width:100%;
-    height:150px !important;
-    border:0;
-    border-radius:32px;
-    background:transparent;
-  }
 
 /* ---------- MODELS CAROUSEL ---------- */
 .hero-model{
