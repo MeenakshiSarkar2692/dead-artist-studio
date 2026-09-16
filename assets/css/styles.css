@@ -1007,7 +1007,7 @@
 }
 .locker-door--tshirts .lr-locker-label{
   background:var(--red);
-  color:var(--cream);
+  color:var(--ink);
 }
 /* tape strip at top */
 .lr-locker-label::before{
