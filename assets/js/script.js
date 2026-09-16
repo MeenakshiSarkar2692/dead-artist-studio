@@ -180,18 +180,49 @@
       dragState = null;
     });
 
-    var CARD_LABELS = {
-      'LOCKER — 01': ['TEE 01','TEE 02','PRINT','GRAPHIC','COTTON','BOLD','DROP','ARC'],
-      'LOCKER — 02': ['SHIRT 01','SHIRT 02','BUTTON','WOVEN','STUDIO','CUT','ARCH','FIT'],
-      'LOCKER — 03': ['HOOD 01','HOOD 02','FLEECE','PULL','WARM','CLEAN','STAPLE','DRIP'],
-      'LOCKER — 04': ['TEE 01','TEE 02','SLIM','REGULAR','PRINT','CROP','FIT','FRESH'],
+    var CARD_IMAGES = {
+      'LOCKER — 01': [
+        'assets/img/creations/tshirt/tshirts_1.png','assets/img/creations/tshirt/tshirts_2.png',
+        'assets/img/creations/tshirt/tshirts_3.png','assets/img/creations/tshirt/tshirts_4.png',
+        'assets/img/creations/tshirt/tshirts_5.png','assets/img/creations/tshirt/tshirts_6.png',
+        'assets/img/creations/tshirt/tshirts_7.png','assets/img/creations/tshirt/tshirts_8.png',
+        'assets/img/creations/tshirt/tshirts_9.png','assets/img/creations/tshirt/tshirts_10.png',
+        'assets/img/creations/tshirt/tshirts_11.png','assets/img/creations/tshirt/tshirts_12.png',
+        'assets/img/creations/tshirt/tshirts_13.png','assets/img/creations/tshirt/tshirts_14.png',
+        'assets/img/creations/tshirt/tshirts_15.png','assets/img/creations/tshirt/tshirts_16.png',
+        'assets/img/creations/tshirt/tshirts_17.png',
+      ],
+      'LOCKER — 02': [
+        'assets/img/creations/shirt/shirts_1.png','assets/img/creations/shirt/shirts_2.png',
+        'assets/img/creations/shirt/shirts_3.png','assets/img/creations/shirt/shirts_4.png',
+        'assets/img/creations/shirt/shirts_5.png','assets/img/creations/shirt/shirts_6.png',
+        'assets/img/creations/shirt/shirts_7.png','assets/img/creations/shirt/shirts_8.png',
+        'assets/img/creations/shirt/shirts_9.png','assets/img/creations/shirt/shirts_10.png',
+        'assets/img/creations/shirt/shirts_11.png',
+      ],
+      'LOCKER — 03': [
+        'assets/img/creations/hoodie/hoodie_1.png','assets/img/creations/hoodie/hoodie_2.png',
+        'assets/img/creations/hoodie/hoodie_3.png','assets/img/creations/hoodie/hoodie_4.png',
+        'assets/img/creations/hoodie/hoodie_5.png','assets/img/creations/hoodie/hoodie_6.png',
+        'assets/img/creations/hoodie/hoodie_7.png','assets/img/creations/hoodie/hoodie_8.png',
+        'assets/img/creations/hoodie/hoodie_9.png','assets/img/creations/hoodie/hoodie_10.png',
+      ],
+      'LOCKER — 04': [
+        'assets/img/creations/oversized/oversized_1.png','assets/img/creations/oversized/oversized_2.png',
+        'assets/img/creations/oversized/oversized_3.png','assets/img/creations/oversized/oversized_4.png',
+        'assets/img/creations/oversized/oversized_5.png','assets/img/creations/oversized/oversized_6.png',
+        'assets/img/creations/oversized/oversized_7.png','assets/img/creations/oversized/oversized_8.png',
+        'assets/img/creations/oversized/oversized_9.png','assets/img/creations/oversized/oversized_10.png',
+        'assets/img/creations/oversized/oversized_11.png','assets/img/creations/oversized/oversized_12.png',
+        'assets/img/creations/oversized/oversized_13.png','assets/img/creations/oversized/oversized_14.png',
+      ],
     };
 
     var CAPTIONS = {
       'LOCKER — 01': { title: 'Heavy Cotton. Bold Graphics.', sub: 'The original medium — every drop, every print.' },
       'LOCKER — 02': { title: 'Button Up. Stand Out.', sub: 'Woven roots, clean cut — built for the studio.' },
       'LOCKER — 03': { title: 'Stay Warm. Stay Clean.', sub: 'Pull it over. The studio staple, worn in.' },
-      'LOCKER — 04': { title: 'Classic Cut. Every Day.', sub: 'Your canvas — graphic tees done right.' },
+      'LOCKER — 04': { title: 'Go Wide. Go Easy.', sub: 'Oversized cuts, relaxed fit — made to move in.' },
     };
 
     /* object-position per locker — centers the open-locker door in the 4:3 crop */
@@ -229,14 +260,20 @@
 
       if (cardsContainer) {
         cardsContainer.innerHTML = '';
-        var labels    = (CARD_LABELS[btn.dataset.kicker] || []);
-        var delays    = [340,370,400,430,460,410,380,350];
-        var durations = [750,700,730,710,760,720,680,740];
-        labels.forEach(function(lbl, i) {
+        var images    = (CARD_IMAGES[btn.dataset.kicker] || []);
+        var delays    = [340,370,400,430,460,410,380,350,360,420,450,390,370,440,360,410,430];
+        var durations = [750,700,730,710,760,720,680,740,720,740,700,760,730,710,750,680,720];
+        images.forEach(function(src, i) {
           var card = document.createElement('div');
           card.className = 'reveal-card';
-          card.setAttribute('data-label', lbl);
-          card.style.cssText = 'top:45%;left:35%;animation:cardFly'+(i+1)+' '+durations[i]+'ms cubic-bezier(.22,.85,.28,1) '+delays[i]+'ms both';
+          card.setAttribute('data-label', String(i + 1).padStart(2, '0'));
+          var flyIdx = (i % 17) + 1;
+          card.style.cssText = 'top:45%;left:35%;animation:cardFly'+flyIdx+' '+durations[i % 17]+'ms cubic-bezier(.22,.85,.28,1) '+delays[i % 17]+'ms both';
+          var img = document.createElement('img');
+          img.src = src;
+          img.alt = '';
+          img.draggable = false;
+          card.appendChild(img);
           card.addEventListener('mousedown', function(e){
             var rect = card.getBoundingClientRect();
             var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
