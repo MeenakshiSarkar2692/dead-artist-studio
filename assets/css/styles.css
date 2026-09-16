@@ -1068,6 +1068,7 @@
   font-size:0.85em;
   display:block;
   color:var(--red);
+  letter-spacing:0.02em;
 }
 
 /* Azeret Mono replaces IBM Plex Mono for all subtext/mono elements */
