@@ -50,6 +50,17 @@
         el.style.width  = ((r[2]-r[0]) * scale) + 'px';
         el.style.height = ((r[3]-r[1]) * scale) + 'px';
       });
+
+      /* Helmet overlay — pinned to box-top surface in image space (2752×1536).
+         PNG is square so displayed height = width; bottom of visual helmet ≈ 91.7 % of that,
+         landing at image-y ≈ 408 px (top surface of stacked boxes). */
+      var helmetLink = document.querySelector('.hero-helmet-link');
+      if (helmetLink) {
+        var HX = 206, HY = 204, HW = 260;
+        helmetLink.style.left  = (HX * scale + tx) + 'px';
+        helmetLink.style.top   = (HY * scale + ty) + 'px';
+        helmetLink.style.width = (HW * scale)       + 'px';
+      }
     }
 
     window.addEventListener('resize', positionHotspots);
