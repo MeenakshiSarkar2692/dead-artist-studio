@@ -39,6 +39,18 @@
     padding:22px 40px;
     mix-blend-mode:normal;
   }
+  .nav-studio-label{
+    position:absolute;
+    left:50vw;
+    transform:translateX(-50%);
+    color:var(--cream);
+    font-family:'Azeret Mono','IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    text-shadow:0 1px 6px rgba(0,0,0,0.35);
+    white-space:nowrap;
+  }
   .nav-mark{
     display:flex;
     align-items:center;
@@ -78,6 +90,7 @@
     nav{ padding:16px 20px; }
     .nav-mark{ font-size:15px; }
     .nav-links{ gap:14px; font-size:10px; }
+    .nav-studio-label{ font-size:9px; }
   }
 
   /* ---------- HERO ---------- */
@@ -780,6 +793,7 @@
 
   }
 
+
 /* ---------- MODELS CAROUSEL ---------- */
 .hero-model{
   position:absolute;
@@ -991,6 +1005,10 @@
   text-align:center;
   line-height:1.2;
 }
+.locker-door--tshirts .lr-locker-label{
+  background:var(--red);
+  color:var(--cream);
+}
 /* tape strip at top */
 .lr-locker-label::before{
   content:"";
@@ -1051,6 +1069,7 @@
   font-size:0.85em;
   display:block;
   color:var(--red);
+  letter-spacing:0.02em;
 }
 
 /* Azeret Mono replaces IBM Plex Mono for all subtext/mono elements */

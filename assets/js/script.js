@@ -29,8 +29,7 @@
     var NAT_W = 2752, NAT_H = 1536;
     var OBJ_POS_X = 0, OBJ_POS_Y = 0.62;
     var REGIONS = {
-      lockers: [1540, 240, 2752, 1260],
-      laptop:  [815, 715, 1150, 925]
+      lockers: [1540, 240, 2752, 1260]
     };
 
     function positionHotspots(){
@@ -81,6 +80,7 @@
 
     hero.addEventListener('mousemove', onMove);
     hero.addEventListener('mouseleave', function(){ targetX = 0; targetY = 0; });
+
 
     // gentle gyroscope support for mobile "look around"
     window.addEventListener('deviceorientation', function(e){
@@ -184,12 +184,14 @@
       'LOCKER — 01': ['TEE 01','TEE 02','PRINT','GRAPHIC','COTTON','BOLD','DROP','ARC'],
       'LOCKER — 02': ['SHIRT 01','SHIRT 02','BUTTON','WOVEN','STUDIO','CUT','ARCH','FIT'],
       'LOCKER — 03': ['HOOD 01','HOOD 02','FLEECE','PULL','WARM','CLEAN','STAPLE','DRIP'],
+      'LOCKER — 04': ['TEE 01','TEE 02','SLIM','REGULAR','PRINT','CROP','FIT','FRESH'],
     };
 
     var CAPTIONS = {
       'LOCKER — 01': { title: 'Heavy Cotton. Bold Graphics.', sub: 'The original medium — every drop, every print.' },
       'LOCKER — 02': { title: 'Button Up. Stand Out.', sub: 'Woven roots, clean cut — built for the studio.' },
       'LOCKER — 03': { title: 'Stay Warm. Stay Clean.', sub: 'Pull it over. The studio staple, worn in.' },
+      'LOCKER — 04': { title: 'Classic Cut. Every Day.', sub: 'Your canvas — graphic tees done right.' },
     };
 
     /* object-position per locker — centers the open-locker door in the 4:3 crop */
@@ -197,6 +199,7 @@
       'LOCKER — 01': '0% center',   /* archive  — open locker at ~37%, crops to center */
       'LOCKER — 02': '35% center',  /* shirts   — open locker at ~46%, shift right */
       'LOCKER — 03': '0% center',   /* hoodies  — open locker at ~25%, show left side */
+      'LOCKER — 04': '0% center',
     };
 
     /* preload all three locker reveal images after page load */
