@@ -5,6 +5,8 @@
     var roomImg = document.getElementById('roomImg');
     var loader = document.getElementById('loader');
     var loaderFill = document.getElementById('loaderFill');
+    var musicHotspot = document.getElementById('hotspot-laptop');
+    var spotifyPopover = document.getElementById('spotifyPopover');
 
     /* ---- Loader ---- */
     document.body.style.overflow = 'hidden';
@@ -51,6 +53,14 @@
         el.style.height = ((r[3]-r[1]) * scale) + 'px';
       });
 
+      if (musicHotspot && spotifyPopover) {
+        var heroRect = hero.getBoundingClientRect();
+        var left = Math.max(22, heroRect.width * 0.23);
+        var top = Math.max(160, heroRect.height * 0.46);
+        spotifyPopover.style.left = left + 'px';
+        spotifyPopover.style.top = top + 'px';
+      }
+
       /* Helmet overlay — pinned to box-top surface in image space (2752×1536).
          PNG is square so displayed height = width; bottom of visual helmet ≈ 91.7 % of that,
          landing at image-y ≈ 408 px (top surface of stacked boxes). */
@@ -81,6 +91,30 @@
 
     hero.addEventListener('mousemove', onMove);
     hero.addEventListener('mouseleave', function(){ targetX = 0; targetY = 0; });
+
+    function showMusicPopover(){
+      if (!musicHotspot || !spotifyPopover) return;
+      spotifyPopover.classList.add('is-visible');
+      spotifyPopover.setAttribute('aria-hidden', 'false');
+      musicHotspot.setAttribute('aria-expanded', 'true');
+    }
+
+    function hideMusicPopover(){
+      if (!musicHotspot || !spotifyPopover) return;
+      if (musicHotspot.matches(':hover') || spotifyPopover.matches(':hover') || document.activeElement === musicHotspot) return;
+      spotifyPopover.classList.remove('is-visible');
+      spotifyPopover.setAttribute('aria-hidden', 'true');
+      musicHotspot.setAttribute('aria-expanded', 'false');
+    }
+
+    if (musicHotspot && spotifyPopover) {
+      musicHotspot.addEventListener('mouseenter', showMusicPopover);
+      musicHotspot.addEventListener('mouseleave', hideMusicPopover);
+      musicHotspot.addEventListener('focus', showMusicPopover);
+      musicHotspot.addEventListener('blur', hideMusicPopover);
+      spotifyPopover.addEventListener('mouseenter', showMusicPopover);
+      spotifyPopover.addEventListener('mouseleave', hideMusicPopover);
+    }
 
     // gentle gyroscope support for mobile "look around"
     window.addEventListener('deviceorientation', function(e){
