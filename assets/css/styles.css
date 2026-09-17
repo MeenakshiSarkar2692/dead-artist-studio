@@ -1146,13 +1146,27 @@
   background:var(--ink);
   transform:translateX(100%);
   transition:transform .55s cubic-bezier(.22,.85,.28,1);
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
+  overflow:hidden;
 }
 .about-modal.is-open .about-panel{
   transform:translateX(0);
 }
+.about-collage{
+  position:absolute;
+  inset:0;
+}
+.about-card{
+  position:absolute;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+  border-radius:3px;
+  box-shadow:0 14px 44px rgba(0,0,0,0.65), 0 4px 14px rgba(0,0,0,0.35);
+  will-change:transform;
+  transition:box-shadow .2s ease;
+}
+.about-card:hover{ box-shadow:0 20px 56px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.45); }
+.about-card:active{ cursor:grabbing; }
 .about-close{
   position:fixed;
   top:22px; right:28px;

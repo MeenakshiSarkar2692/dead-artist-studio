@@ -184,74 +184,16 @@
 <div class="about-modal" id="aboutModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="About">
   <div class="about-backdrop" id="aboutBackdrop" onclick="document.getElementById('aboutModal').classList.remove('is-open');document.body.style.overflow='';"></div>
   <div class="about-panel" id="aboutPanel">
-
     <button class="about-close" id="aboutClose" aria-label="Close" onclick="document.getElementById('aboutModal').classList.remove('is-open');document.body.style.overflow='';">✕</button>
-
-    <!-- watermark -->
-    <div class="about-watermark" aria-hidden="true">DAS</div>
-
-    <div class="about-inner">
-
-      <!-- LEFT: identity block -->
-      <div class="about-left">
-        <p class="about-eyebrow">Est. 2021 &nbsp;·&nbsp; Independent Studio</p>
-        <h2 class="about-name">Your<br>Name<br>Here</h2>
-        <div class="about-tags">
-          <span>Designer</span>
-          <span>Photographer</span>
-          <span>Maker</span>
-        </div>
-        <p class="about-location">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          City, Country
-        </p>
-      </div>
-
-      <!-- RIGHT: bio + links -->
-      <div class="about-right">
-        <div class="about-bio-block">
-          <p class="about-label">About</p>
-          <p class="about-bio">
-            Dead Artists Society is an independent creative label built on the belief that good design outlives its maker. Everything produced here — every graphic, every cut, every drop — is made with intent, made to last, and made without permission.
-          </p>
-          <p class="about-bio" style="margin-top:14px">
-            Replace this with your own story. What drives you, what you make, why it matters. Keep it honest, keep it short.
-          </p>
-        </div>
-
-        <div class="about-divider"></div>
-
-        <div class="about-stat-row">
-          <div class="about-stat">
-            <span class="about-stat-num">6+</span>
-            <span class="about-stat-label">Years active</span>
-          </div>
-          <div class="about-stat">
-            <span class="about-stat-num">80+</span>
-            <span class="about-stat-label">Pieces dropped</span>
-          </div>
-          <div class="about-stat">
-            <span class="about-stat-num">3</span>
-            <span class="about-stat-label">Lines in archive</span>
-          </div>
-        </div>
-
-        <div class="about-divider"></div>
-
-        <div class="about-links">
-          <a href="mailto:hello@deadartiststudio.co" class="about-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            hello@deadartiststudio.co
-          </a>
-          <a href="#" class="about-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            @deadartiststudio
-          </a>
-        </div>
-
-      </div>
-    </div><!-- /.about-inner -->
-  </div><!-- /.about-panel -->
+    <div class="about-collage" id="aboutCollage">
+      <img class="about-card" src="assets/img/about/Frame%201948758324.png" alt="" draggable="false" data-rot="-9" style="top:4%;left:2%;width:21%;transform:rotate(-9deg);z-index:2;">
+      <img class="about-card" src="assets/img/about/Frame%201948758322.png" alt="" draggable="false" data-rot="6"  style="top:3%;left:57%;width:23%;transform:rotate(6deg);z-index:2;">
+      <img class="about-card" src="assets/img/about/A4%20-%201.png"          alt="" draggable="false" data-rot="-2" style="top:11%;left:26%;width:27%;transform:rotate(-2deg);z-index:3;">
+      <img class="about-card" src="assets/img/about/image%206415.png"         alt="" draggable="false" data-rot="10" style="top:5%;left:39%;width:16%;transform:rotate(10deg);z-index:4;">
+      <img class="about-card" src="assets/img/about/Frame%201948758325.png"   alt="" draggable="false" data-rot="-12" style="top:55%;left:1%;width:16%;transform:rotate(-12deg);z-index:2;">
+      <img class="about-card" src="assets/img/about/call-me-if-you-get-lost-gwtcfzvuae%201.png" alt="" draggable="false" data-rot="-5" style="top:58%;left:55%;width:27%;transform:rotate(-5deg);z-index:2;">
+    </div>
+  </div>
 </div><!-- /#aboutModal -->
 
 <!-- ===== CONTACT MODAL ===== -->

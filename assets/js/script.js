@@ -392,9 +392,74 @@
     var backdrop = document.getElementById('aboutBackdrop');
     var closeBtn = document.getElementById('aboutClose');
     var triggers = document.querySelectorAll('.about-trigger');
+    var topZ = 10;
+    var aboutDragState = null;
+
+    document.addEventListener('mousemove', function(e){
+      if (!aboutDragState) return;
+      aboutDragState.card.style.left = (e.clientX - aboutDragState.ox) + 'px';
+      aboutDragState.card.style.top  = (e.clientY - aboutDragState.oy) + 'px';
+    });
+    document.addEventListener('mouseup', function(){
+      if (!aboutDragState) return;
+      aboutDragState.card.style.cursor = 'grab';
+      aboutDragState = null;
+    });
+    document.addEventListener('touchmove', function(e){
+      if (!aboutDragState) return;
+      e.preventDefault();
+      var t = e.touches[0];
+      aboutDragState.card.style.left = (t.clientX - aboutDragState.ox) + 'px';
+      aboutDragState.card.style.top  = (t.clientY - aboutDragState.oy) + 'px';
+    }, { passive: false });
+    document.addEventListener('touchend', function(){
+      if (!aboutDragState) return;
+      aboutDragState.card.style.cursor = 'grab';
+      aboutDragState = null;
+    });
+
+    function initCardDrag(card){
+      card.addEventListener('mousedown', function(e){
+        var rect = card.getBoundingClientRect();
+        var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
+        var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+        card.style.position  = 'fixed';
+        card.style.width     = rect.width + 'px';
+        card.style.left      = rect.left + 'px';
+        card.style.top       = rect.top  + 'px';
+        card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+        card.style.zIndex    = String(++topZ);
+        card.style.cursor    = 'grabbing';
+        aboutDragState = { card: card, ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+        e.preventDefault();
+      });
+      card.addEventListener('touchstart', function(e){
+        var t = e.touches[0];
+        var rect = card.getBoundingClientRect();
+        var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
+        var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+        card.style.position  = 'fixed';
+        card.style.width     = rect.width + 'px';
+        card.style.left      = rect.left + 'px';
+        card.style.top       = rect.top  + 'px';
+        card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+        card.style.zIndex    = String(++topZ);
+        aboutDragState = { card: card, ox: t.clientX - rect.left, oy: t.clientY - rect.top };
+        e.preventDefault();
+      }, { passive: false });
+    }
+
+    modal.querySelectorAll('.about-card').forEach(function(card){
+      card.dataset.initStyle = card.getAttribute('style');
+      initCardDrag(card);
+    });
 
     function openAbout(e){
       if (e) e.preventDefault();
+      modal.querySelectorAll('.about-card').forEach(function(card){
+        card.setAttribute('style', card.dataset.initStyle);
+      });
+      topZ = 10;
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
