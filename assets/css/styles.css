@@ -1481,7 +1481,7 @@
 }
 .reveal-card {
   position: absolute;
-  width: 120px; height: 168px;
+  width: 160px; height: 220px;
   border-radius: 8px;
   background: var(--cream);
   border: 1px solid rgba(0,0,0,0.12);
@@ -1502,7 +1502,7 @@
   width: 100%;
   min-height: 0;
   object-fit: contain;
-  padding: 10px 8px 4px;
+  padding: 6px 6px 2px;
   display: block;
   pointer-events: none;
   draggable: false;
