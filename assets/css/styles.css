@@ -630,6 +630,21 @@
     font-family:'Anton', sans-serif;
     font-size:24px;
   }
+  .footer-brand{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .footer-tagline{
+    font-family:'Oswald', sans-serif;
+    font-weight:300;
+    font-size:clamp(13px,1.3vw,15px);
+    color:rgba(246,241,230,0.55);
+    letter-spacing:0.04em;
+    max-width:38ch;
+    line-height:1.55;
+    margin:0;
+  }
   footer .fcols{
     display:flex;
     gap:56px;
