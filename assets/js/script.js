@@ -423,8 +423,9 @@
         var rect = card.getBoundingClientRect();
         var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
         var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+        var w = parseFloat(window.getComputedStyle(card).width);
         card.style.position  = 'fixed';
-        card.style.width     = rect.width + 'px';
+        card.style.width     = w + 'px';
         card.style.left      = rect.left + 'px';
         card.style.top       = rect.top  + 'px';
         card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
@@ -438,8 +439,9 @@
         var rect = card.getBoundingClientRect();
         var matrix = new DOMMatrix(window.getComputedStyle(card).transform);
         var angle = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+        var w = parseFloat(window.getComputedStyle(card).width);
         card.style.position  = 'fixed';
-        card.style.width     = rect.width + 'px';
+        card.style.width     = w + 'px';
         card.style.left      = rect.left + 'px';
         card.style.top       = rect.top  + 'px';
         card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
