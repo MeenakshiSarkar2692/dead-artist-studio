@@ -235,7 +235,7 @@
 
     /* preload all three locker reveal images after page load */
     window.addEventListener('load', function(){
-      ['assets/img/studio/locker-archive.webp','assets/img/studio/locker-shirts.webp','assets/img/studio/locker-hoodies.webp'].forEach(function(src){
+      ['assets/img/studio/locker-tshirts.webp','assets/img/studio/locker-shirts.webp','assets/img/studio/locker-hoodies.webp'].forEach(function(src){
         var img = new Image(); img.src = src;
       });
     });
