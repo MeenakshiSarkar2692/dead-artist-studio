@@ -35,9 +35,12 @@
   </div>
 </div>
 
-<nav>
+<nav id="mainNav">
   <div class="nav-mark"><img src="favicon.svg" alt="" width="26" height="26" style="border-radius:4px;vertical-align:middle;margin-right:2px;"><span class="brand-name">DEAD ARTISTS SOCIETY</span></div>
-  <div class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="#" id="navCollectionLink">Collection</a>
     <a href="#" class="about-trigger" onclick="var m=document.getElementById('aboutModal');m.classList.add('is-open');document.body.style.overflow='hidden';return false;">About</a>
     <a href="#" onclick="document.getElementById('contactModal').classList.add('is-open');document.body.style.overflow='hidden';return false;">Contact</a>
