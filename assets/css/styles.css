@@ -1629,3 +1629,35 @@
   50%     { stroke: rgba(246,241,230,0.45); }
 }
 @media (max-width: 600px) { .hold-trigger { right: 14px; bottom: 100px; } }
+
+/* ---- Card lightbox ---- */
+#cardLightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity .22s ease;
+  pointer-events: none;
+}
+#cardLightbox.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+#cardLightbox img {
+  max-width: 88vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+  cursor: zoom-out;
+  transform: scale(0.94);
+  transition: transform .22s ease;
+}
+#cardLightbox.is-open img {
+  transform: scale(1);
+}

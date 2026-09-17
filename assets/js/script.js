@@ -155,8 +155,22 @@
 
     /* single global drag state — avoids accumulating listeners per card */
     var dragState = null;
+
+    /* card lightbox — created once, reused for all collection cards */
+    var lightbox = document.createElement('div');
+    lightbox.id = 'cardLightbox';
+    var lbImg = document.createElement('img');
+    lbImg.alt = '';
+    lightbox.appendChild(lbImg);
+    document.body.appendChild(lightbox);
+    lightbox.addEventListener('click', function(){ lightbox.classList.remove('is-open'); });
+
     document.addEventListener('mousemove', function(e){
       if (!dragState) return;
+      if (!dragState.moved) {
+        if (Math.abs(e.clientX - dragState.sx) > 4 || Math.abs(e.clientY - dragState.sy) > 4) dragState.moved = true;
+      }
+      if (!dragState.moved) return;
       dragState.card.style.left = (e.clientX - dragState.ox) + 'px';
       dragState.card.style.top  = (e.clientY - dragState.oy) + 'px';
     });
@@ -164,12 +178,20 @@
       if (!dragState) return;
       dragState.card.style.cursor = 'grab';
       dragState.card.style.zIndex = '30';
+      if (!dragState.moved) {
+        var img = dragState.card.querySelector('img');
+        if (img) { lbImg.src = img.src; lightbox.classList.add('is-open'); }
+      }
       dragState = null;
     });
     document.addEventListener('touchmove', function(e){
       if (!dragState) return;
       e.preventDefault();
       var t = e.touches[0];
+      if (!dragState.moved) {
+        if (Math.abs(t.clientX - dragState.sx) > 4 || Math.abs(t.clientY - dragState.sy) > 4) dragState.moved = true;
+      }
+      if (!dragState.moved) return;
       dragState.card.style.left = (t.clientX - dragState.ox) + 'px';
       dragState.card.style.top  = (t.clientY - dragState.oy) + 'px';
     }, { passive: false });
@@ -177,6 +199,10 @@
       if (!dragState) return;
       dragState.card.style.cursor = 'grab';
       dragState.card.style.zIndex = '30';
+      if (!dragState.moved) {
+        var img = dragState.card.querySelector('img');
+        if (img) { lbImg.src = img.src; lightbox.classList.add('is-open'); }
+      }
       dragState = null;
     });
 
@@ -286,7 +312,7 @@
             card.style.opacity = '1';
             card.style.zIndex = '50';
             card.style.cursor = 'grabbing';
-            dragState = { card: card, ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+            dragState = { card: card, ox: e.clientX - rect.left, oy: e.clientY - rect.top, sx: e.clientX, sy: e.clientY, moved: false };
             e.preventDefault();
             e.stopPropagation();
           });
@@ -302,7 +328,7 @@
             card.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
             card.style.opacity = '1';
             card.style.zIndex = '50';
-            dragState = { card: card, ox: t.clientX - rect.left, oy: t.clientY - rect.top };
+            dragState = { card: card, ox: t.clientX - rect.left, oy: t.clientY - rect.top, sx: t.clientX, sy: t.clientY, moved: false };
             e.preventDefault();
           }, { passive: false });
           cardsContainer.appendChild(card);
